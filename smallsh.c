@@ -153,7 +153,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     //If parent
     else{
         //if background command
-        if(flags->bgCmd == 1){
+        if(flags->bgCmd != 1){
             //Wait for child process
             waitpid(pid, &status, WUNTRACED);
             if(WIFEXITED(status)){
