@@ -89,6 +89,7 @@ char **parseInput(char* input, struct flagStruct * flags){
 void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid_t pid;
     int status = 0;
+    printf("%s was sent in\n", args[0]);
     //Fork off child proccess for command
     pid = fork();
     //If child proccess
@@ -102,8 +103,12 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         fflush(stdout);
         exit(EXIT_SUCCESS);
     }
-    //If parent process
-
+    //If fork failed
+    if(pid == -1){
+        //if fails write to standard error
+        fprintf(stderr, "Fork Failure\n");
+        exit(EXIT_FAILURE);
+    }
 }
 /*
  * Runs a list of commands from an array of strings
