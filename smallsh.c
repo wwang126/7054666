@@ -132,6 +132,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         }
 
         if(execvp(*args, args) == -1){
+            fflush(stdout);
             //if fails write to standard error
             fprintf(stderr, "Execute Failure\n");
             exit(EXIT_FAILURE);
