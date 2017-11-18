@@ -98,6 +98,8 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             fprintf(stderr, "Execute Failure\n");
             exit(EXIT_FAILURE);
         }
+        printf("Executing cmd: %s", *args);
+        fflush(stdout);
         exit(EXIT_SUCCESS);
     }
     //If parent process
