@@ -95,7 +95,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         //Set up input redirection
         if(flags->redirIn){
             //open up file
-            if((inStatus = open(flags->inFile, O_RDONLY) == -1){
+            if((inStatus = open(flags->inFile, O_RDONLY))== -1){
                 //If Failure
                 fprintf(stderr, "File opening error\n");
                 exit(EXIT_FAILURE);
@@ -111,7 +111,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         //set up output redirection
         if(flags->redirOut){
             //open up file
-            if((outStatus = open(flags->outFIle, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1){
+            if((outStatus = open(flags->outFile, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1){
                 //If Failure
                 fprintf(stderr, "File opening error\n");
                 exit(EXIT_FAILURE);
@@ -194,11 +194,11 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             //Execute commands
             execCmd(args,flags,cmdStatus);
         }
+        //Print out command prompt
+        printf(": ");
+        //Flush buffer
+        fflush(stdout);
     }
-    //Print out command prompt
-    printf(": ");
-    //Flush buffer
-    fflush(stdout);
 }
 
 
@@ -223,5 +223,6 @@ int main(int argc, char *argv[]){
         char** args;
         args = parseInput(input,&flags);
         runCmd(args,&flags,cmdStatus);
+
     }
 }
