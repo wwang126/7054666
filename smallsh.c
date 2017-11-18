@@ -111,12 +111,6 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     //If child proccess
     if(pid == 0){
 
-
-        // //If bg child
-        // if(flags->bgCmd == 1){
-        //     sigaction(SIGINT, sig, NULL); //interruptable
-        // }
-
         //Handle input/output redirection
         int inStatus = 0;
         int outStatus = 0;
@@ -256,16 +250,6 @@ int main(int argc, char *argv[]){
     //set run to 1
     run = 1;
     numPids = 0;
-
-    // //Intiliaze signal handlers
-    // struct sigaction SIGTSTP_Action, IGNORE_Action;
-    // SIGTSTP_Action.sa_handler = catchInt;
-    // sigfillset(&SIGTSTP_Action.sa_mask);
-    // SIGTSTP_Action.sa_flags= 0;
-    // sigaction(SIGTSTP, &SIGTSTP_Action, NULL);
-    // IGNORE_Action.sa_handler = SIG_IGN;
-    // sigaction(SIGINT, &IGNORE_Action, NULL);
-
     //Create flagStruct
     struct flagStruct flags = {0,0,0,0,NULL,NULL};
     //Main running loop
