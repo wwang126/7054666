@@ -109,6 +109,24 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         fprintf(stderr, "Fork Failure\n");
         exit(EXIT_FAILURE);
     }
+    //If parent
+    else{
+        //if background command
+        if(flags->bgCmd == 1){
+            //Wait for child process
+            waitpid(pid, &status, WUNTRACED);
+            if(WIFEXITED(status)){
+                //send status of child process
+                sprintf(cmdStatus, "Proccess exited with: %d\n", WIFEXITED(status));
+            }
+            if(WIFSIGNALED(status)){
+                sprintf(cmdStatus, "Terminated by signal: %d\n", WIFSIGNALED(status));
+                //If killed by signal, print out signal
+                printf("%s",cmdStatus);
+                fflush(stdout);
+            }
+        }
+    }
 }
 /*
  * Runs a list of commands from an array of strings
