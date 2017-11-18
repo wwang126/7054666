@@ -186,6 +186,11 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
                 fflush(stdout);
             }
         }
+        else{
+            //Print process id if bg
+            printf("Background process: %d\n", pid);
+            fflush(stdout);
+        }
 
     }
 }
@@ -250,14 +255,14 @@ int main(int argc, char *argv[]){
     run = 1;
     numPids = 0;
 
-    //Intiliaze signal handlers
-    struct sigaction SIGTSTP_Action, IGNORE_Action;
-    SIGTSTP_Action.sa_handler = catchInt;
-    sigfillset(&SIGTSTP_Action.sa_mask);
-    SIGTSTP_Action.sa_flags= 0;
-    sigaction(SIGTSTP, &SIGTSTP_Action, NULL);
-    IGNORE_Action.sa_handler = SIG_IGN;
-    sigaction(SIGINT, &IGNORE_Action, NULL);
+    // //Intiliaze signal handlers
+    // struct sigaction SIGTSTP_Action, IGNORE_Action;
+    // SIGTSTP_Action.sa_handler = catchInt;
+    // sigfillset(&SIGTSTP_Action.sa_mask);
+    // SIGTSTP_Action.sa_flags= 0;
+    // sigaction(SIGTSTP, &SIGTSTP_Action, NULL);
+    // IGNORE_Action.sa_handler = SIG_IGN;
+    // sigaction(SIGINT, &IGNORE_Action, NULL);
 
     //Create flagStruct
     struct flagStruct flags = {0,0,0,0,NULL,NULL};
