@@ -50,7 +50,7 @@ char **parseInput(char* input, struct flagStruct * flags){
   //counter for storage
   int i = 0;
   //get first token
-  token = strtok(input, " \n");
+  token = strtok(input, " \n\t\r\a");
   //get next tokens
   while( token != NULL ) {
       //Check if token is special command
@@ -72,7 +72,7 @@ char **parseInput(char* input, struct flagStruct * flags){
           i++;
       }
       //token to next null
-      token = strtok(NULL, " \n");
+      token = strtok(NULL, " \n\t\r\a");
   }
   //add NULL terminator
   output[i] = NULL;
