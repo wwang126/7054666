@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g -Wall -lpthread -std=c99
+CFLAGS=-g -Wall -std=c99
 
 all:
 	${CC} smallsh.c -o smallsh ${CFLAGS}
