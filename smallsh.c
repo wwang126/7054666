@@ -84,9 +84,15 @@ char **parseInput(char* input, struct flagStruct * flags){
   return output;
 }
 /*
+ * Execute non-built in commands
+ */
+void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
+
+}
+/*
  * Runs a list of commands from an array of strings
  */
-void runCmd(char** args, struct flagStruct * flags){
+void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     printf("Arg 0 is %s\n",args[0]);
     //Check for NULL and check for comment
     if(*args != NULL){
@@ -94,6 +100,27 @@ void runCmd(char** args, struct flagStruct * flags){
         if(strcmp(*args,"exit") == 0){
             //exit for shell from exit command
             exit(EXIT_SUCCESS);
+        }
+        //check for change directory
+        else if(strcmp(args[0],"cd")==0){
+            //grab destination
+            if(args[1] == NULL){
+                //if the cd is blank, go home
+                chdir(getenv("HOME"));
+            }
+            else{
+                //Otherwise go to directory
+                chdir(args[1]);
+            }
+        }
+        else if(strcmp(args[0],"status")){
+            //print status of last command
+            printf("%s\n", cmdStatus );
+            //push output for re-entrant
+            fflush(stdout);
+        }
+        else{
+            execCmd(args,flags,cmdStatus);
         }
     }
 }
@@ -103,6 +130,8 @@ void runCmd(char** args, struct flagStruct * flags){
  * Main function that runs when started
  */
 int main(int argc, char *argv[]){
+    //set status
+    char* cmdStatus = malloc(sizeof(char)*36);
     //set run to 1
     run = 1;
     //Main running loop
@@ -115,10 +144,11 @@ int main(int argc, char *argv[]){
         char** args;
         printf("%s\n",input);
         args = parseInput(input,&flags);
-        runCmd(args,&flags);
+        runCmd(args,&flags,cmdStatus);
         //printf("args passed: %d\n",flags.argCnt);
         //printf("Input file: %s\n",flags.inFile);
         //printf("Output file: %s\n",flags.outFile);
-        //printf("%s %s %s\n",args[0],args[1],args[2]);        run = 0;
+        //printf("%s %s %s\n",args[0],args[1],args[2]);
+        //run = 0;
     }
 }
