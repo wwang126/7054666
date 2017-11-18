@@ -218,13 +218,20 @@ int main(int argc, char *argv[]){
     char* cmdStatus = malloc(sizeof(char)*36);
     //set run to 1
     run = 1;
+    //Create flagStruct
+    struct flagStruct flags = {0,0,0,0,NULL,NULL};
     //Main running loop
     while(run){
         //Print out command prompt
         printf(": ");
         fflush(stdout);
-        //Intilize flagStruct
-        struct flagStruct flags = {0,0,0,0,NULL,NULL};
+        //Reset flags struct
+        flags.argCnt = 0;
+        flags.bgCmd = 0;
+        flags.redirIn = 0;
+        flags.redirOut = 0;
+        flags.inFile = NULL;
+        flags.outFile = NULL;
         //String reader
         char* input = readInput();
         //arguemnts
