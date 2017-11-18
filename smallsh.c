@@ -110,10 +110,12 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid = fork();
     //If child proccess
     if(pid == 0){
-        //If bg child
-        if(flags->bgCmd == 1){
-            sigaction(SIGINT, sig, NULL); //interruptable
-        }
+
+        
+        // //If bg child
+        // if(flags->bgCmd == 1){
+        //     sigaction(SIGINT, sig, NULL); //interruptable
+        // }
 
         //Handle input/output redirection
         int inStatus = 0;
