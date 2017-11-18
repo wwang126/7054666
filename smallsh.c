@@ -93,12 +93,6 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid = fork();
     //If child proccess
     if(pid == 0){
-        int i = 0;
-        // while(args[i] != NULL){
-        //     printf("%d is %s\n", i, args[i]);
-        //     fflush(stdout);
-        //     i++;
-        // }
         //Handle input/output redirection
         int inStatus = 0;
         int outStatus = 0;
@@ -152,6 +146,9 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     }
     //If parent
     else{
+        //Save process ids of children to kill later
+        pids[numPids] = pid;
+        numPids++;
         //if background command
         if(flags->bgCmd != 1){
             //Wait for child process
@@ -208,7 +205,18 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         }
     }
 }
-
+/*
+ * Parent process kills all child processes
+ */
+void filicide(){
+    //loop thru all pids and kill them
+    int i = 0;
+    while (i != numPids){
+        kill(pids[i],SIGKILL);
+        i++;
+    }
+    numPids = 0;
+}
 
 /*
  * Main function that runs when started
@@ -218,10 +226,12 @@ int main(int argc, char *argv[]){
     char* cmdStatus = malloc(sizeof(char)*36);
     //set run to 1
     run = 1;
+    numPids = 0;
     //Create flagStruct
     struct flagStruct flags = {0,0,0,0,NULL,NULL};
     //Main running loop
     while(run){
+        filicide();
         //Print out command prompt
         printf(": ");
         fflush(stdout);
