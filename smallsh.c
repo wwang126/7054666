@@ -210,8 +210,6 @@ int main(int argc, char *argv[]){
     while(run){
         //Print out command prompt
         printf(": ");
-        //Flush buffer
-        fflush(stdout);
         //Intilize flagStruct
         struct flagStruct flags = {0,0,0,0,NULL,NULL};
         //String reader
