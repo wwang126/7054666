@@ -14,11 +14,8 @@
 int run = 0; //if this is 1 contiue running
 int pids[64]; //background processes
 int numPids;
-int fgndO; //Foreground only for signaling 
+int fgndO; //Foreground only for signaling
 
-
-//Signal handlers
-struct sigaction SIGTSTP_Action, IGNORE_Action;
 
 //By default all is 0, if tripped 1
 struct flagStruct{
@@ -254,6 +251,7 @@ int main(int argc, char *argv[]){
     numPids = 0;
 
     //Intiliaze signal handlers
+    struct sigaction SIGTSTP_Action, IGNORE_Action;
     SIGTSTP_Action.sa_handler = catchInt;
     sigfillset(&SIGTSTP_Action.sa_mask);
     SIGTSTP_Action.sa_flags= 0;
