@@ -35,6 +35,10 @@ char* readInput(){
     char* input = NULL;
     ssize_t len = 0;
     getline(&input,&len,stdin);
+    //Expand $$ into pids
+    while(strstr(input,"$$")){
+        sprintf(strstr(input,"$$"), "%d", getpid());
+    }
     return input;
 }
 /*
