@@ -90,11 +90,11 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     //If child proccess
     if(pid == 0){
         int i = 0;
-        while(args[i] != NULL){
-            printf("%d is %s\n", i, args[i]);
-            fflush(stdout);
-            i++;
-        }
+        // while(args[i] != NULL){
+        //     printf("%d is %s\n", i, args[i]);
+        //     fflush(stdout);
+        //     i++;
+        // }
         //Handle input/output redirection
         int inStatus = 0;
         int outStatus = 0;
