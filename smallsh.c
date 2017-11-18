@@ -89,7 +89,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid = fork();
     //If child proccess
     if(pid == 0){
-        int i = 0
+        int i = 0;
         while(args[i] != NULL){
             printf("%d is %s\n", i, args[i]);
             fflush(stdout);
