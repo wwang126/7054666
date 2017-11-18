@@ -83,33 +83,33 @@ char **parseInput(char* input, struct flagStruct * flags){
   flags->argCnt = i;
   return output;
 }
-/*
- * Execute non-built in commands
- */
-void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
-    pid_t pid;
-    int status = 0;
-    printf("%s was sent in\n", args[0]);
-    //Fork off child proccess for command
-    pid = fork();
-    //If child proccess
-    if(pid == 0){
-        if(execvp(*args, args) == -1){
-            //if fails write to standard error
-            fprintf(stderr, "Execute Failure\n");
-            exit(EXIT_FAILURE);
-        }
-        printf("Executing cmd: %s", *args);
-        fflush(stdout);
-        exit(EXIT_SUCCESS);
-    }
-    //If fork failed
-    if(pid == -1){
-        //if fails write to standard error
-        fprintf(stderr, "Fork Failure\n");
-        exit(EXIT_FAILURE);
-    }
-}
+// /*
+//  * Execute non-built in commands
+//  */
+// void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
+//     pid_t pid;
+//     int status = 0;
+//     printf("%s was sent in\n", args[0]);
+//     //Fork off child proccess for command
+//     pid = fork();
+//     //If child proccess
+//     if(pid == 0){
+//         if(execvp(*args, args) == -1){
+//             //if fails write to standard error
+//             fprintf(stderr, "Execute Failure\n");
+//             exit(EXIT_FAILURE);
+//         }
+//         printf("Executing cmd: %s", *args);
+//         fflush(stdout);
+//         exit(EXIT_SUCCESS);
+//     }
+//     //If fork failed
+//     if(pid == -1){
+//         //if fails write to standard error
+//         fprintf(stderr, "Fork Failure\n");
+//         exit(EXIT_FAILURE);
+//     }
+// }
 /*
  * Runs a list of commands from an array of strings
  */
@@ -144,7 +144,29 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             fflush(stdout);
         }
         else{
-            execCmd(args,flags,cmdStatus);
+            //Execute commands 
+            pid_t pid;
+            int status = 0;
+            printf("%s was sent in\n", args[0]);
+            //Fork off child proccess for command
+            pid = fork();
+            //If child proccess
+            if(pid == 0){
+                if(execvp(*args, args) == -1){
+                    //if fails write to standard error
+                    fprintf(stderr, "Execute Failure\n");
+                    exit(EXIT_FAILURE);
+                }
+                printf("Executing cmd: %s", *args);
+                fflush(stdout);
+                exit(EXIT_SUCCESS);
+            }
+            //If fork failed
+            if(pid == -1){
+                //if fails write to standard error
+                fprintf(stderr, "Fork Failure\n");
+                exit(EXIT_FAILURE);
+            }
         }
     }
 }
