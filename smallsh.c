@@ -31,10 +31,6 @@ struct flagStruct{
  * Takes in input and outputs it in a buffer
  */
 char* readInput(){
-    //Print out command prompt
-    printf(": ");
-    //Flush buffer
-    fflush(stdout);
     //Set vars for getline
     char* input = NULL;
     ssize_t len = 0;
@@ -176,13 +172,16 @@ int main(int argc, char *argv[]){
     run = 1;
     //Main running loop
     while(run){
+        //Print out command prompt
+        printf(": ");
+        //Flush buffer
+        fflush(stdout);
         //Intilize flagStruct
         struct flagStruct flags = {0,0,0,0,NULL,NULL};
         //String reader
         char* input = readInput();
         //arguemnts
         char** args;
-        printf("%s\n",input);
         args = parseInput(input,&flags);
         runCmd(args,&flags,cmdStatus);
     }
