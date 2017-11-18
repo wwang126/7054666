@@ -89,6 +89,11 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid = fork();
     //If child proccess
     if(pid == 0){
+        int i = 0
+        while(args[i] != NULL){
+            printf("%d is %s\n", i, args[i]);
+            fflush(stdio);
+        }
         //Handle input/output redirection
         int inStatus = 0;
         int outStatus = 0;
@@ -210,6 +215,7 @@ int main(int argc, char *argv[]){
     while(run){
         //Print out command prompt
         printf(": ");
+        fflush(stdio);
         //Intilize flagStruct
         struct flagStruct flags = {0,0,0,0,NULL,NULL};
         //String reader
