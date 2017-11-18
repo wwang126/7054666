@@ -89,7 +89,6 @@ char **parseInput(char* input, struct flagStruct * flags){
 void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid_t pid;
     int status = 0;
-    printf("%s was sent in\n", args[0]);
     //Fork off child proccess for command
     pid = fork();
     //If child proccess
@@ -99,8 +98,6 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             fprintf(stderr, "Execute Failure\n");
             exit(EXIT_FAILURE);
         }
-        printf("Executing cmd: %s", *args);
-        fflush(stdout);
         exit(EXIT_SUCCESS);
     }
     //If fork failed
@@ -126,13 +123,13 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
                 fflush(stdout);
             }
         }
+
     }
 }
 /*
  * Runs a list of commands from an array of strings
  */
 void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
-    printf("Arg 0 is %s\n",args[0]);
     //Check for NULL and check for comment
     if(*args != NULL){
         //Check for exit
@@ -188,10 +185,5 @@ int main(int argc, char *argv[]){
         printf("%s\n",input);
         args = parseInput(input,&flags);
         runCmd(args,&flags,cmdStatus);
-        //printf("args passed: %d\n",flags.argCnt);
-        //printf("Input file: %s\n",flags.inFile);
-        //printf("Output file: %s\n",flags.outFile);
-        //printf("%s %s %s\n",args[0],args[1],args[2]);
-        //run = 0;
     }
 }
