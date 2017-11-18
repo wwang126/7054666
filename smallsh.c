@@ -195,6 +195,10 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             execCmd(args,flags,cmdStatus);
         }
     }
+    //Print out command prompt
+    printf(": ");
+    //Flush buffer
+    fflush(stdout);
 }
 
 
@@ -219,9 +223,5 @@ int main(int argc, char *argv[]){
         char** args;
         args = parseInput(input,&flags);
         runCmd(args,&flags,cmdStatus);
-        //Print out command prompt
-        printf(": ");
-        //Flush buffer
-        fflush(stdout);
     }
 }
