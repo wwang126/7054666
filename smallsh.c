@@ -87,6 +87,20 @@ char **parseInput(char* input, struct flagStruct * flags){
  * Execute non-built in commands
  */
 void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
+    pid_t pid;
+    int status = 0;
+    //Fork off child proccess for command
+    pid = fork();
+    //If child proccess
+    if(pid == 0){
+        if(execvp(*args, args) == -1){
+            //if fails write to standard error
+            fprintf(stderr, "Execute Failure\n");
+            exit(EXIT_FAILURE);
+        }
+        exit(EXIT_SUCCESS);
+    }
+    //If parent process
 
 }
 /*
@@ -110,7 +124,10 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             }
             else{
                 //Otherwise go to directory
-                chdir(args[1]);
+                if(chdir(args[1])!= 0){
+                    printf("Directory not found!\n");
+                    fflush(stdout);
+                }
             }
         }
         else if(strcmp(args[0],"status")){
