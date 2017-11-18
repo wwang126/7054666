@@ -14,6 +14,11 @@
 int run = 0; //if this is 1 contiue running
 int pids[64]; //background processes
 int numPids;
+int fgndO; //Foreground only for signaling 
+
+
+//Signal handlers
+struct sigaction SIGTSTP_Action, IGNORE_Action;
 
 //By default all is 0, if tripped 1
 struct flagStruct{
@@ -83,6 +88,21 @@ char **parseInput(char* input, struct flagStruct * flags){
   flags->argCnt = i;
   return output;
 }
+
+void catchInt(int signo){
+ if(signo == SIGTSTP){
+        if(fgndO == 0){
+            fgndO = 1;
+            char* msg = "Foreground mode enabled.\n";
+            write(STDOUT_FILENO, msg, 24);
+        }
+        else{
+            fgndO = 0;
+            char* msg = "Foreground mode disabled.\n";
+            write(STDOUT_FILENO, msg, 25);
+        }
+    }
+}
 /*
  * Execute non-built in commands
  */
@@ -93,6 +113,11 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid = fork();
     //If child proccess
     if(pid == 0){
+        //If bg child
+        if(flags->bgCmd == 1){
+            sigaction(SIGINT, sig, NULL); //interruptable
+        }
+
         //Handle input/output redirection
         int inStatus = 0;
         int outStatus = 0;
@@ -227,6 +252,15 @@ int main(int argc, char *argv[]){
     //set run to 1
     run = 1;
     numPids = 0;
+
+    //Intiliaze signal handlers
+    SIGTSTP_Action.sa_handler = catchInt;
+    sigfillset(&SIGTSTP_Action.sa_mask);
+    SIGTSTP_Action.sa_flags= 0;
+    sigaction(SIGTSTP, &SIGTSTP_Action, NULL);
+    IGNORE_Action.sa_handler = SIG_IGN;
+    sigaction(SIGINT, &IGNORE_Action, NULL);
+
     //Create flagStruct
     struct flagStruct flags = {0,0,0,0,NULL,NULL};
     //Main running loop
