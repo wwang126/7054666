@@ -118,7 +118,7 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     //Check for NULL and check for comment
     if(*args != NULL){
         //Check for exit
-        if(strcmp(*args,"exit") == 0){
+        if(strcmp(args[0] ,"exit") == 0){
             //exit for shell from exit command
             exit(EXIT_SUCCESS);
         }
@@ -137,14 +137,14 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
                 }
             }
         }
-        else if(strcmp(args[0],"status")){
+        else if(strcmp(args[0],"status") == 0){
             //print status of last command
             printf("%s\n", cmdStatus );
             //push output for re-entrant
             fflush(stdout);
         }
         else{
-            //Execute commands 
+            //Execute commands
             pid_t pid;
             int status = 0;
             printf("%s was sent in\n", args[0]);
