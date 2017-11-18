@@ -194,10 +194,6 @@ void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             //Execute commands
             execCmd(args,flags,cmdStatus);
         }
-        //Print out command prompt
-        printf(": ");
-        //Flush buffer
-        fflush(stdout);
     }
 }
 
@@ -210,11 +206,12 @@ int main(int argc, char *argv[]){
     char* cmdStatus = malloc(sizeof(char)*36);
     //set run to 1
     run = 1;
-    //Print initial prompt
-    printf(": ");
-    fflush(stdout);
     //Main running loop
     while(run){
+        //Print out command prompt
+        printf(": ");
+        //Flush buffer
+        fflush(stdout);
         //Intilize flagStruct
         struct flagStruct flags = {0,0,0,0,NULL,NULL};
         //String reader
