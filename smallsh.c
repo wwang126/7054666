@@ -170,7 +170,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
  */
 void runCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     //Check for NULL and check for comment
-    if(*args != NULL){
+    if(*args != NULL && **args != '#'){
         //Check for exit
         if(strcmp(args[0] ,"exit") == 0){
             //exit for shell from exit command
