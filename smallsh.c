@@ -93,6 +93,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
         while(args[i] != NULL){
             printf("%d is %s\n", i, args[i]);
             fflush(stdout);
+            i++;
         }
         //Handle input/output redirection
         int inStatus = 0;
