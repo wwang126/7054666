@@ -111,7 +111,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     //If child proccess
     if(pid == 0){
 
-        
+
         // //If bg child
         // if(flags->bgCmd == 1){
         //     sigaction(SIGINT, sig, NULL); //interruptable
@@ -179,7 +179,7 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
             waitpid(pid, &status, WUNTRACED);
             if(WIFEXITED(status)){
                 //send status of child process
-                sprintf(cmdStatus, "Proccess exited with: %d\n", WIFEXITED(status));
+                sprintf(cmdStatus, "Proccess exited with: %d\n", WEXITSTATUS(status));
             }
             if(WIFSIGNALED(status)){
                 sprintf(cmdStatus, "Terminated by signal: %d\n", WIFSIGNALED(status));
