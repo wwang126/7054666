@@ -89,6 +89,42 @@ void execCmd(char** args, struct flagStruct * flags, char* cmdStatus){
     pid = fork();
     //If child proccess
     if(pid == 0){
+        //Handle input/output redirection
+        int inStatus = 0;
+        int outStatus = 0;
+        //Set up input redirection
+        if(flags->redirIn){
+            //open up file
+            if((inStatus = open(flags->inFile, O_RDONLY) == -1){
+                //If Failure
+                fprintf(stderr, "File opening error\n");
+                exit(EXIT_FAILURE);
+            }
+            //Otherwise, redirect input
+            else{
+                if ((dup2(inStatus,0)) == -1){
+                    fprintf(stderr, "Redirect failure\n");
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+        //set up output redirection
+        if(flags->redirOut){
+            //open up file
+            if((outStatus = open(flags->outFIle, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1){
+                //If Failure
+                fprintf(stderr, "File opening error\n");
+                exit(EXIT_FAILURE);
+            }
+            //Otherwise, redirect input
+            else{
+                if ((dup2(outStatus,1)) == -1){
+                    fprintf(stderr, "Redirect failure\n");
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+
         if(execvp(*args, args) == -1){
             //if fails write to standard error
             fprintf(stderr, "Execute Failure\n");
