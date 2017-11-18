@@ -78,8 +78,24 @@ char **parseInput(char* input, struct flagStruct * flags){
       //token to next null
       token = strtok(NULL, " \n");
   }
+  //add NULL terminator
+  output[i] = NULL;
   flags->argCnt = i;
   return output;
+}
+/*
+ * Runs a list of commands from an array of strings
+ */
+void runCmd(char** args, struct flagStruct * flags){
+    printf("Arg 0 is %s\n",args[0]);
+    //Check for NULL and check for comment
+    if(*args != NULL){
+        //Check for exit
+        if(strcmp(*args,"exit") == 0){
+            //exit for shell from exit command
+            exit(EXIT_SUCCESS);
+        }
+    }
 }
 
 
@@ -95,11 +111,14 @@ int main(int argc, char *argv[]){
         struct flagStruct flags = {0,0,0,0,NULL,NULL};
         //String reader
         char* input = readInput();
+        //arguemnts
+        char** args;
         printf("%s\n",input);
-        parseInput(input,&flags);
-        printf("args passed: %d\n",flags.argCnt);
-        printf("Input file: %s\n",flags.inFile);
-        printf("Output file: %s\n",flags.outFile);
-        run = 0;
+        args = parseInput(input,&flags);
+        runCmd(args,&flags);
+        //printf("args passed: %d\n",flags.argCnt);
+        //printf("Input file: %s\n",flags.inFile);
+        //printf("Output file: %s\n",flags.outFile);
+        //printf("%s %s %s\n",args[0],args[1],args[2]);        run = 0;
     }
 }
